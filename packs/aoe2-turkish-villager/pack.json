@@ -1,0 +1,27 @@
+{
+  "id": "aoe2-turkish-villager",
+  "name": "Age of Empires II - Turkish Villager",
+  "version": "1.0.0",
+  "description": "Turkish villager voice lines from Age of Empires II. Selam! Emrin! Yaparim!",
+  "author": "mehmetsemihbabacan",
+  "license": "MIT",
+  "tags": ["gaming", "aoe2", "turkish", "voice", "retro"],
+
+  "sounds": {
+    "selam":      { "file": "sounds/selam.mp3",      "label": "Hello / Greeting" },
+    "emrin":      { "file": "sounds/emrin.mp3",       "label": "At your command" },
+    "evet":       { "file": "sounds/evet.mp3",        "label": "Yes" },
+    "oduncu":     { "file": "sounds/oduncu.mp3",      "label": "Lumberjack / Task assignment" },
+    "yaparim":    { "file": "sounds/yaparim.mp3",     "label": "I'll do it" },
+    "daha_iyice": { "file": "sounds/daha_iyice.mp3",  "label": "Even better" }
+  },
+
+  "hooks": {
+    "SessionStart":     { "sounds": ["selam", "emrin"] },
+    "UserPromptSubmit": { "sounds": ["emrin", "evet"] },
+    "Notification":     { "sounds": ["oduncu", "evet"] },
+    "Stop":             { "sounds": ["yaparim", "daha_iyice"] },
+    "SubagentStart":    { "sounds": ["evet", "oduncu"] },
+    "SubagentStop":     { "sounds": ["daha_iyice", "yaparim"] }
+  }
+}

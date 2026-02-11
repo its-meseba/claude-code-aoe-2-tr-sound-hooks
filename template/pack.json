@@ -1,0 +1,36 @@
+{
+  "id": "your-pack-id",
+  "name": "Your Pack Name",
+  "version": "1.0.0",
+  "description": "A short one-line description of your sound pack",
+  "author": "your-github-username",
+  "license": "MIT",
+  "tags": [],
+
+  "sounds": {
+    "greeting": {
+      "file": "sounds/greeting.mp3",
+      "label": "A friendly greeting sound"
+    },
+    "confirm": {
+      "file": "sounds/confirm.mp3",
+      "label": "Confirmation / acknowledgment"
+    },
+    "complete": {
+      "file": "sounds/complete.mp3",
+      "label": "Task completion"
+    }
+  },
+
+  "hooks": {
+    "SessionStart": {
+      "sounds": ["greeting"]
+    },
+    "UserPromptSubmit": {
+      "sounds": ["confirm"]
+    },
+    "Stop": {
+      "sounds": ["complete"]
+    }
+  }
+}

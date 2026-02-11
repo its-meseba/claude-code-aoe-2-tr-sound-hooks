@@ -1,69 +1,102 @@
-# Claude Code × Age of Empires II Sound Hooks
+# Awesome Claude Code Sounds
 
-Turn your Claude Code terminal into an AoE2 Turkish villager colony. Every action triggers an iconic sound — session starts with "Selam!", prompts get "Emrin!", and completed tasks finish with "Yaparım!".
+A community-driven collection of sound packs for [Claude Code](https://docs.anthropic.com/en/docs/claude-code) hooks. Turn your coding sessions into an immersive audio experience.
 
-## Sound Files
+## What is this?
 
-| File | Meaning | Used In |
-|------|---------|---------|
-| `aoe_selam.mp3` | "Hello" | SessionStart |
-| `aoe_emrin.mp3` | "At your command" | SessionStart, UserPromptSubmit |
-| `aoe_evet.mp3` | "Yes" | UserPromptSubmit, Notification, SubagentStart |
-| `aoe_oduncu.mp3` | "Lumberjack" | Notification, SubagentStart |
-| `aoe_yaparim.mp3` | "I'll do it" | Stop, SubagentStop |
-| `aoe_daha_iyice.mp3` | "Even better" | Stop, SubagentStop |
+Claude Code supports [lifecycle hooks](https://docs.anthropic.com/en/docs/claude-code/hooks) that run shell commands at key moments: session start, prompt submit, task completion, and more. This repo provides **themed sound packs** that play audio clips on these events, plus a **universal installer** that handles cross-platform playback and safe `settings.json` merging.
 
-Each hook randomly picks between two sounds, so it doesn't get repetitive.
+## Available Packs
 
-## Hook Mapping
+| Pack | Description | Sounds | Hooks | Author |
+|------|-------------|--------|-------|--------|
+| [aoe2-turkish-villager](packs/aoe2-turkish-villager/) | Turkish villager voice lines from Age of Empires II | 6 | 6 | [@mehmetsemihbabacan](https://github.com/mehmetsemihbabacan) |
 
-```
-SessionStart      → selam / emrin       (greeting)
-UserPromptSubmit  → emrin / evet        (acknowledging your command)
-Notification      → oduncu / evet       (task assignment)
-Stop              → yaparım / daha iyice (task complete)
-SubagentStart     → evet / oduncu       (sub-agent dispatched)
-SubagentStop      → daha iyice / yaparım (sub-agent finished)
-```
+> Want to add yours? See [CONTRIBUTING.md](CONTRIBUTING.md).
 
-## Install
+## Quick Install
 
 ```bash
-cd claude-hooks-setup
-bash install.sh
+git clone https://github.com/user/awesome-claude-code-sounds.git
+cd awesome-claude-code-sounds
+./install.sh aoe2-turkish-villager
 ```
 
-The installer:
-- Copies all 6 `.mp3` files to `~/.claude/hooks/`
-- Merges hooks into your existing `~/.claude/settings.json` (won't overwrite other settings)
-- Cleans up any invalid keys from previous installs
+Restart Claude Code to activate.
 
-## Troubleshooting
-
-If Claude Code shows a "Settings Error" about invalid keys, run:
+## Quick Uninstall
 
 ```bash
-python3 fix-settings.py
+./uninstall.sh aoe2-turkish-villager
 ```
 
-This removes `SubAgentStart`/`SubAgentStop` (wrong casing) — the valid names are `SubagentStart`/`SubagentStop`.
+## List Packs
+
+```bash
+./list.sh
+```
+
+## How It Works
+
+1. **Sound files** are copied to `~/.claude/hooks/sounds/<pack-id>/` (namespaced per pack, no collisions)
+2. **Hook entries** are merged into `~/.claude/settings.json` without touching your existing config
+3. Each hook randomly picks between assigned sounds so it doesn't get repetitive
+4. Sounds play in the background (`&`) so they never block Claude Code
+
+## Platform Support
+
+| Platform | Audio Player | Status |
+|----------|-------------|--------|
+| macOS | `afplay` | Fully supported |
+| Linux | `paplay` / `aplay` / `mpg123` | Fully supported |
+| WSL | `paplay` via PulseAudio | Experimental |
+
+The installer auto-detects your platform and available audio player.
+
+## Create Your Own Pack
+
+```bash
+# 1. Copy the template
+cp -r template/ packs/my-pack-name/
+
+# 2. Add your sounds to packs/my-pack-name/sounds/
+
+# 3. Edit packs/my-pack-name/pack.json
+
+# 4. Test it
+./install.sh --dry-run my-pack-name
+./install.sh my-pack-name
+
+# 5. Open a PR!
+```
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for the full guide including the pack.json schema, all 14 hook events, sound requirements, and the PR checklist.
+
+## Supported Hook Events
+
+| Event | When it fires |
+|-------|---------------|
+| `SessionStart` | Session begins |
+| `SessionEnd` | Session terminates |
+| `UserPromptSubmit` | User sends a prompt |
+| `Stop` | Claude finishes responding |
+| `Notification` | Claude needs attention |
+| `SubagentStart` | Subagent spawns |
+| `SubagentStop` | Subagent finishes |
+| `TaskCompleted` | Task marked complete |
+| `PreToolUse` | Before a tool runs |
+| `PostToolUse` | After a tool succeeds |
+| `PostToolUseFailure` | After a tool fails |
+| `PermissionRequest` | Permission dialog shown |
+| `TeammateIdle` | Teammate going idle |
+| `PreCompact` | Before context compaction |
 
 ## Requirements
 
-- macOS (uses `afplay` for audio playback)
-- Claude Code CLI
+- macOS or Linux (or WSL)
 - Python 3 (for JSON merge during install)
-
-## Trademark & Audio Disclaimer
-
-**The audio files included in this repository are not original works of the author.** They are sourced from publicly available channels and are based on sound effects from the *Age of Empires II* video game series.
-
-*Age of Empires* and *Age of Empires II* are registered trademarks of **Xbox Game Studios** and **Microsoft Corporation**. All audio assets, sound effects, and related intellectual property belong to their respective owners.
-
-This project is a fan-made, non-commercial hobby tool. It is not affiliated with, endorsed by, or sponsored by Microsoft Corporation, Xbox Game Studios, or any of their subsidiaries. The sounds are used here for personal entertainment and educational purposes only.
-
-If you are a rights holder and would like any content removed, please open an issue.
+- Claude Code CLI
 
 ## License
 
-MIT — do whatever you want with the code. Audio files are subject to their original owners' terms.
+MIT for the tooling. Individual sound packs may have their own licensing terms -- check each pack's README.
