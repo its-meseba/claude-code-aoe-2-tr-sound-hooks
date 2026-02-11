@@ -1,0 +1,64 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash -c 'f=(aoe_selam.mp3 aoe_emrin.mp3); afplay $HOME/.claude/hooks/${f[$RANDOM % ${#f[@]}]}'"
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash -c 'f=(aoe_emrin.mp3 aoe_evet.mp3); afplay $HOME/.claude/hooks/${f[$RANDOM % ${#f[@]}]}'"
+          }
+        ]
+      }
+    ],
+    "Notification": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash -c 'f=(aoe_oduncu.mp3 aoe_evet.mp3); afplay $HOME/.claude/hooks/${f[$RANDOM % ${#f[@]}]}'"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash -c 'f=(aoe_yaparim.mp3 aoe_daha_iyice.mp3); afplay $HOME/.claude/hooks/${f[$RANDOM % ${#f[@]}]}'"
+          }
+        ]
+      }
+    ],
+    "SubagentStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash -c 'f=(aoe_evet.mp3 aoe_oduncu.mp3); afplay $HOME/.claude/hooks/${f[$RANDOM % ${#f[@]}]}'"
+          }
+        ]
+      }
+    ],
+    "SubagentStop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash -c 'f=(aoe_daha_iyice.mp3 aoe_yaparim.mp3); afplay $HOME/.claude/hooks/${f[$RANDOM % ${#f[@]}]}'"
+          }
+        ]
+      }
+    ]
+  }
+}
